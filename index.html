@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI INDEX</title>
+    <link rel="icon" href="AQIFAVLOGO.png"type="image/x-icon">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200vh;
+            margin: 0;
+        }
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .column {a
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container {
+            background-color: rgba(41, 0, 188, 0.86);
+            height: auto;
+            width: 300px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <img src="AQIFAVLOGO.png" alt="logo" style="width: 200px; height: 200px;">
+    <h1 style="margin: 10px;">AQI</h1>
+    <div class="flex-container">
+        <div class="column">
+            <div class="form-container">
+                <h2>GET REGISTERED</h2>
+                <form id="registrationForm">
+                    <label for="fname">Full Name:</label><br>
+                    <input type="text" id="fname" name="fname" placeholder="Enter your full name"><br>
+ 
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" name="email" placeholder="Enter your email"><br>
+ 
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+ 
+                    <label for="cpassword">Confirm Password:</label><br>
+                    <input type="password" id="cpassword" name="cpassword" placeholder="Confirm your password"><br>
+ 
+                    <label for="gender">Gender:</label><br>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label><br>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label><br>
+                    <input type="radio" id="other" name="gender" value="other">
+                    <label for="other">Other</label><br>
+ 
+                    <label for="dob">DOB:</label><br>
+                    <input type="date" id="dob" name="dob"><br>
+ 
+                    <label for="Country">Country:</label><br>
+                    <select id="Country" name="Country">
+                        <option value="">Select Country</option>
+                        <option value="India">India</option>
+                        <option value="USA">USA</option>
+                        <option value="UK">UK</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="Japan">Japan</option>
+                        <option value="China">China</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Spain">Spain</option>
+                    </select><br>
+ 
+                    <input type="checkbox" id="terms" name="terms">
+                    <label for="terms">I agree to the terms and conditions</label><br>
+ 
+                    <label for="opinion">Opinion:</label><br>
+                    <textarea id="opinion" name="opinion" rows="4" cols="20" placeholder="Write your opinion"></textarea><br>
+ 
+                    <label for="bgcolor">Select Background Color:</label><br>
+                    <input type="color" id="bgcolor" name="bgcolor" value="#ffffff"><br>
+ 
+                    <input type="submit" value="Submit">
+                </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const form = document.getElementById('registrationForm');
+               
+                        form.addEventListener('submit', (event) => {
+                            event.preventDefault(); // Prevent form submission
+               
+                            const fullName = document.getElementById('fname').value.trim();
+                            const email = document.getElementById('email').value.trim();
+                            const password = document.getElementById('password').value.trim();
+                            const confirmPassword = document.getElementById('cpassword').value.trim();
+                            const dob = document.getElementById('dob').value.trim();
+                            const gender = document.querySelector('input[name="gender"]:checked');
+                            const country = document.getElementById('Country').value;
+                            const terms = document.getElementById('terms').checked;
+                            const bgcolor = document.getElementById('bgcolor').value;
+               
+                            let isValid = true;
+               
+                            // Full Name Validation (Allow letters, dots, hyphens, and spaces)
+                            const nameRegex = /^[a-zA-Z.\-\s]+$/;
+                            if (!fullName) {
+                                alert('Please enter your full name.');
+                                isValid = false;
+                            } else if (!nameRegex.test(fullName)) {
+                                alert('Full name can only contain letters, dots, hyphens, and spaces.');
+                                isValid = false;
+                            }
+               
+                            // Email Validation
+                            const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com)$/;
+                            if (!email) {
+                                alert('Please enter your email.');
+                                isValid = false;
+                            } else if (!emailRegex.test(email)) {
+                                alert('Email must be a valid Gmail, Yahoo, or Hotmail address.');
+                                isValid = false;
+                            }
+               
+                            // Password Validation
+                            if (!password) {
+                                alert('Please enter a password.');
+                                isValid = false;
+                            } else if (password.length < 8) {
+                                alert('Password must be at least 8 characters long.');
+                                isValid = false;
+                            }
+               
+                            // Confirm Password Validation
+                            if (!confirmPassword) {
+                                alert('Please confirm your password.');
+                                isValid = false;
+                            } else if (password !== confirmPassword) {
+                                alert('Passwords do not match.');
+                                isValid = false;
+                            }
+               
+                            // DOB Validation
+                            if (!dob) {
+                                alert('Please select your date of birth.');
+                                isValid = false;
+                            } else {
+                                const dobDate = new Date(dob);
+                                const age = new Date().getFullYear() - dobDate.getFullYear();
+                                if (age < 18) {
+                                    alert('You must be at least 18 years old.');
+                                    isValid = false;
+                                }
+                            }
+               
+                            // Gender Validation
+                            if (!gender) {
+                                alert('Please select your gender.');
+                                isValid = false;
+                            }
+               
+                            // Country Validation
+                            if (!country) {
+                                alert('Please select your country.');
+                                isValid = false;
+                            }
+               
+                            // Terms and Conditions Validation
+                            if (!terms) {
+                                alert('You must agree to the terms and conditions.');
+                                isValid = false;
+                            }
+               
+                            // Background Color
+                            if (bgcolor) {
+                                document.querySelector('.form-container').style.backgroundColor = bgcolor;
+                            }
+               
+                            if (!isValid) {
+                                return;
+                            }
+               
+                            alert('Registration Successful!');
+                            form.reset();
+                        });
+                    });
+                </script>
+            </div>
+            <div style="background-color: brown; height: 100px; width: 300px; margin: auto;"></div>
+        </div>
+        <div style="background-color: blueviolet;; height: 696px; width: 200px;"></div>
+    </div>
+        </div>
+    </div>
+ 
+   
+</body>
+</html>s
