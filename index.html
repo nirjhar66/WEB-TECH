@@ -3,208 +3,351 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Air Quality Portal</title>
+  <title>Air Quality Index</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
       font-family: Arial, sans-serif;
+      padding-top: 30px;
     }
-
-    .container {
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background-color: #006a4e;
       display: flex;
-      margin-top: 20px;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
     }
-
-    .forms-container {
+    .red-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #f42a41;
+    }
+    .container {
+      width: 500px;
+      height: 620px;
+      display: flex;
+      border: 2px solid black;
+      background-color: #fff;
+      box-sizing: border-box;
+    }
+    .left {
+      width: 40%;
       display: flex;
       flex-direction: column;
     }
-
-    .form-box {
-      width: 300px;
-      padding: 20px;
-      color: white;
+    .upper-left {
+      height: 80%;
+      background-color: lightblue;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .lower-left {
+      height: 20%;
+      background-color: lightgreen;
+      padding: 10px;
       box-sizing: border-box;
     }
-
-    .registration {
-      background-color: rgba(41, 0, 188, 0.86);
-    }
-
-    .login {
-      background-color: green;
-    }
-
-    .aqi-table-container {
-      background-color: red;
-      color: white;
-      width: 300px;
-      height: auto;
+    .right {
+      width: 60%;
+      background-color: lightcoral;
+      padding: 10px;
       box-sizing: border-box;
     }
-
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-container input,
+    .form-container select {
+      padding: 3px;
+      font-size: 9px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    .form-container label {
+      font-weight: bold;
+      font-size: 8px;
+    }
+    .form-container button {
+      padding: 7px;
+      font-size: 9px;
+      background-color: #006a4e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .form-container button:hover {
+      background-color: #004d3e;
+    }
+    .gender-options {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .gender-options input {
+      width: 8px;
+      height: 8px;
+    }
+    .gender-options label {
+      font-size: 8px;
+    }
+    .terms-container {
+      display: flex;
+      align-items: center;
+      font-size: 8px;
+      gap: 5px;
+    }
+    .terms-container a {
+      color: blue;
+      text-decoration: underline;
+    }
+    .error-message {
+      color: red;
+      font-size: 8px;
+      display: none;
+    }
     table {
       width: 100%;
+      font-size: 10px;
       border-collapse: collapse;
-      table-layout: fixed;
+      margin-top: 10px;
     }
-
     th, td {
-      border: 1px solid white;
-      padding: 8px;
-      text-align: center;
-      word-wrap: break-word;
-    }
-
-    th {
-      background-color: #cc0000;
-    }
-
-    td input {
-      width: 90%;
-      background-color: transparent;
-      border: none;
-      color: white;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    td input:focus {
-      outline: none;
-      background-color: rgba(255,255,255,0.1);
+      border: 1px solid #000;
+      padding: 5px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-  
-  <h1 style="margin: 10px;">Air Quality Portal</h1>
+  <div class="logo">
+    <div class="red-circle"></div>
+  </div>
+
+  <h1 style="text-align:center; margin-bottom: 20px; font-size: 24px; font-weight: bold;">Air Quality Index</h1>
 
   <div class="container">
-    <div class="forms-container">
-      <!-- Registration Form -->
-      <div class="form-box registration">
-        <h2>REGISTRATION</h2>
-        <form id="registrationForm">
-          <label>Full Name:</label><br>
-          <input type="text" id="fname" name="fname" placeholder="Enter your full name"><br>
+    <div class="left">
+      <div class="upper-left">
+        <h2 style="font-size:12px; text-align:center;">Get Registration</h2>
+        <form class="form-container" id="registration-form" action="process.php" method="post" target="_blank">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" name="full-name" required />
+          <div class="error-message" id="full-name-error"></div>
 
-          <label>Email:</label><br>
-          <input type="text" id="email" name="email" placeholder="Enter your email"><br>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <div class="error-message" id="email-error"></div>
 
-          <label>Password:</label><br>
-          <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <div class="error-message" id="password-error"></div>
 
-          <label>Confirm Password:</label><br>
-          <input type="password" id="cpassword" name="cpassword" placeholder="Confirm your password"><br>
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" required />
+          <div class="error-message" id="confirm-password-error"></div>
 
-          <label>Gender:</label><br>
-          <input type="radio" name="gender" value="male">Male
-          <input type="radio" name="gender" value="female">Female
-          <input type="radio" name="gender" value="other">Other<br>
+          <label for="birth-date">Birth Date</label>
+          <input type="date" id="birth-date" name="birth-date" required />
+          <div class="error-message" id="birth-date-error"></div>
 
-          <label>DOB:</label><br>
-          <input type="date" id="dob" name="dob"><br>
+          <label>Gender</label>
+          <div class="gender-options">
+            <input type="radio" id="male" name="gender" value="male" />
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" />
+            <label for="female">Female</label>
+          </div>
+          <div class="error-message" id="gender-error"></div>
 
-          <label>Country:</label><br>
-          <select id="Country" name="Country">
-            <option value="">Select Country</option>
-            <option value="BANGLADESH">BANGLADESH</option>
+          <label for="country">Country</label>
+          <select id="country" name="country" required>
+            <option value="">Select your country</option>
+            <option value="Bangladesh">Bangladesh</option>
             <option value="USA">USA</option>
-            <option value="UK">UK</option>
-            
-          </select><br>
+            <option value="India">India</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="China">China</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Australia">Australia</option>
+            <option value="Canada">Canada</option>
+            <option value="Germany">Germany</option>
+          </select>
+          <div class="error-message" id="country-error"></div>
 
-          <input type="checkbox" id="terms" name="terms"> I agree to the terms<br>
+          <label for="bg-color">Choose Background Color</label>
+          <input type="color" id="bg-color" name="bg-color" value="#ADD8E6" />
 
-          <input type="submit" value="Register">
+          <div class="terms-container">
+            <input type="checkbox" id="terms" name="terms" />
+            <label for="terms">I agree to <a href="#">Terms and Conditions</a></label>
+          </div>
+          <div class="error-message" id="terms-error"></div>
+
+          <button type="submit">Submit</button>
         </form>
       </div>
 
-      <div class="form-box login">
-        <h2>LOGIN</h2>
-        <form id="loginForm">
-          <label>Email:</label><br>
-          <input type="text" id="loginEmail" name="loginEmail"><br>
+      <div class="lower-left">
+        <form id="login-form" class="form-container" method="post" action="check.php" target="_blank">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" name="email" required />
 
-          <label>Password:</label><br>
-          <input type="password" id="loginPassword" name="loginPassword"><br>
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required />
 
-          <input type="submit" value="Login">
+          <button type="submit">Login</button>
+          <div class="error-message" id="login-error" style="display:none;"></div>
         </form>
       </div>
     </div>
 
-    <div class="aqi-table-container">
-      <h2 style="text-align:center;">AQI DATA</h2>
-      <table>
+    <div class="right">
+     
+      <form class="form-container" id="aqi-form"></form>
+
+      
+      <h2 style="text-align:center; margin-bottom: 10px; font-size: 16px; font-weight: bold;">aqi table</h2>
+
+      
+      <table id="aqi-table">
         <thead>
-          <tr>
-            <th>City</th>
-            <th>AQI</th>
-          </tr>
+          <tr><th>City</th><th>AQI</th></tr>
         </thead>
         <tbody>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
-          <tr><td><input type="text" placeholder="Enter city"></td><td><input type="number" placeholder="Enter AQI"></td></tr>
+          <tr><td>Dhaka</td><td>250</td></tr>
+          <tr><td>Paris</td><td>150</td></tr>
+          <tr><td>Sydney</td><td>100</td></tr>
+          <tr><td>Berlin</td><td>80</td></tr>
+          <tr><td>Rome</td><td>60</td></tr>
+          <tr><td>Mumbai</td><td>70</td></tr>
+          <tr><td>New York</td><td>120</td></tr>
+          <tr><td>Tokyo</td><td>100</td></tr>
+          <tr><td>Seoul</td><td>40</td></tr>
+          <tr><td>Madrid</td><td>170</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("registrationForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.style.display = 'block';
+      el.textContent = msg;
+    }
+    function clearError(id) {
+      const el = document.getElementById(id);
+      el.style.display = 'none';
+      el.textContent = '';
+    }
+    function isValidName(name) {
+      return /^[A-Za-z.\-\s]{2,}$/.test(name);
+    }
+    function isValidEmail(email) {
+      return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    }
+    function calculateAge(birthDate) {
+      const today = new Date();
+      const birth = new Date(birthDate);
+      let age = today.getFullYear() - birth.getFullYear();
+      if (today.getMonth() < birth.getMonth() ||
+          (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) {
+        age--;
+      }
+      return age;
+    }
 
-        const fname = document.getElementById("fname").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
-        const confirmPassword = document.getElementById("cpassword").value.trim();
-        const dob = document.getElementById("dob").value;
-        const country = document.getElementById("Country").value;
-        const terms = document.getElementById("terms").checked;
-        const gender = document.querySelector('input[name="gender"]:checked');
+    document.getElementById('registration-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
 
-        if (!fname || !email || !password || !confirmPassword || !dob || !country || !terms || !gender) {
-          alert("Please fill out all fields and accept the terms.");
-          return;
-        }
+      const fullName = document.getElementById('full-name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirm-password').value.trim();
+      const birthDate = document.getElementById('birth-date').value;
+      const gender = document.querySelector('input[name="gender"]:checked');
+      const country = document.getElementById('country').value;
+      const termsChecked = document.getElementById('terms').checked;
 
-        if (password !== confirmPassword) {
-          alert("Passwords do not match.");
-          return;
-        }
+      if (!isValidName(fullName)) {
+        showError('full-name-error', 'Invalid name.');
+        valid = false;
+      } else clearError('full-name-error');
 
-        alert("Registration successful!");
-        this.reset();
-      });
+      if (!isValidEmail(email)) {
+        showError('email-error', 'Invalid email.');
+        valid = false;
+      } else clearError('email-error');
 
-      document.getElementById("loginForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const email = document.getElementById("loginEmail").value.trim();
-        const password = document.getElementById("loginPassword").value.trim();
-        if (!email || !password) {
-          alert("Please enter login credentials.");
-          return;
-        }
-        alert("Login successful!");
-        this.reset();
-      });
+      if (password.length < 8) {
+        showError('password-error', 'Password must be 8 or more characters.');
+        valid = false;
+      } else clearError('password-error');
+
+      if (password !== confirmPassword) {
+        showError('confirm-password-error', 'Passwords do not match.');
+        valid = false;
+      } else clearError('confirm-password-error');
+
+      if (!birthDate || calculateAge(birthDate) < 18) {
+        showError('birth-date-error', 'Must be at least 18.');
+        valid = false;
+      } else clearError('birth-date-error');
+
+      if (!gender) {
+        showError('gender-error', 'Please select gender.');
+        valid = false;
+      } else clearError('gender-error');
+
+      if (!country) {
+        showError('country-error', 'Please select country.');
+        valid = false;
+      } else clearError('country-error');
+
+      if (!termsChecked) {
+        showError('terms-error', 'Must agree to terms.');
+        valid = false;
+      } else clearError('terms-error');
+
+      if (valid) {
+        this.submit(); 
+      }
+    });
+
+    document.getElementById('aqi-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const city = document.getElementById('city')?.value.trim() ?? '';
+      const aqi  = document.getElementById('aqi')?.value.trim()  ?? '';
+      if (!city || !aqi) return;
+      const row = `<tr><td>${city}</td><td>${aqi}</td></tr>`;
+      document.querySelector('#aqi-table tbody').insertAdjacentHTML('beforeend', row);
+      this.reset();
+    });
+
+    document.getElementById('bg-color').addEventListener('input', function () {
+      document.querySelector('.upper-left').style.backgroundColor = this.value;
     });
   </script>
-
 </body>
 </html>
